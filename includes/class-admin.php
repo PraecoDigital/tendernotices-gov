@@ -227,6 +227,9 @@ class TenderNotices_Admin {
                 case 'settings_saved':
                     echo '<div class="notice notice-success is-dismissible"><p>' . __('Settings saved successfully.', 'tender-notices') . '</p></div>';
                     break;
+                case 'pdf_required':
+                    echo '<div class="notice notice-error is-dismissible"><p>' . __('PDF document is required. Please upload a PDF before saving.', 'tender-notices') . '</p></div>';
+                    break;
             }
         }
     }

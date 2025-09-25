@@ -274,14 +274,9 @@ class TenderNotices_Shortcode {
             </div>
             
             <div class="tender-notice-actions">
-                <a href="<?php echo esc_url(get_permalink($post_id)); ?>" class="btn-primary">
+                <a href="<?php echo esc_url($data['pdf_url']); ?>" class="btn-primary" target="_blank">
                     <?php _e('View Details', 'tender-notices'); ?>
                 </a>
-                <?php if ($data['pdf_url']): ?>
-                    <a href="<?php echo esc_url($data['pdf_url']); ?>" class="btn-secondary" target="_blank" download>
-                        <?php _e('Download PDF', 'tender-notices'); ?>
-                    </a>
-                <?php endif; ?>
             </div>
             
             <?php if ($data['pdf_url']): ?>

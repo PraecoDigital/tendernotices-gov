@@ -154,13 +154,7 @@ class TenderNotices_Post_Type {
     public function tender_details_meta_box($post) {
         wp_nonce_field('tender_notice_meta_box', 'tender_notice_meta_box_nonce');
         
-        $issue_date = get_post_meta($post->ID, '_tender_issue_date', true);
         $closing_date = get_post_meta($post->ID, '_tender_closing_date', true);
-        $contact_name = get_post_meta($post->ID, '_tender_contact_name', true);
-        $contact_email = get_post_meta($post->ID, '_tender_contact_email', true);
-        $contact_phone = get_post_meta($post->ID, '_tender_contact_phone', true);
-        $tender_value = get_post_meta($post->ID, '_tender_value', true);
-        $tender_reference = get_post_meta($post->ID, '_tender_reference', true);
         $tender_number = get_post_meta($post->ID, '_tender_number', true);
         $pre_bid_meeting_date = get_post_meta($post->ID, '_pre_bid_meeting_date', true);
         $pre_bid_meeting_mandatory = get_post_meta($post->ID, '_pre_bid_meeting_mandatory', true);
@@ -172,14 +166,6 @@ class TenderNotices_Post_Type {
         <table class="form-table">
             <tr>
                 <th scope="row">
-                    <label for="tender_issue_date"><?php _e('Issue Date', 'tender-notices'); ?></label>
-                </th>
-                <td>
-                    <input type="date" id="tender_issue_date" name="tender_issue_date" value="<?php echo esc_attr($issue_date); ?>" class="regular-text" />
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">
                     <label for="tender_closing_date"><?php _e('Closing Date', 'tender-notices'); ?></label>
                 </th>
                 <td>
@@ -188,50 +174,10 @@ class TenderNotices_Post_Type {
             </tr>
             <tr>
                 <th scope="row">
-                    <label for="tender_reference"><?php _e('Tender Reference', 'tender-notices'); ?></label>
-                </th>
-                <td>
-                    <input type="text" id="tender_reference" name="tender_reference" value="<?php echo esc_attr($tender_reference); ?>" class="regular-text" />
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">
                     <label for="tender_number"><?php _e('Tender Number', 'tender-notices'); ?></label>
                 </th>
                 <td>
                     <input type="text" id="tender_number" name="tender_number" value="<?php echo esc_attr($tender_number); ?>" class="regular-text" />
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">
-                    <label for="tender_value"><?php _e('Tender Value', 'tender-notices'); ?></label>
-                </th>
-                <td>
-                    <input type="text" id="tender_value" name="tender_value" value="<?php echo esc_attr($tender_value); ?>" class="regular-text" placeholder="<?php _e('e.g., $50,000 - $100,000', 'tender-notices'); ?>" />
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">
-                    <label for="tender_contact_name"><?php _e('Contact Name', 'tender-notices'); ?></label>
-                </th>
-                <td>
-                    <input type="text" id="tender_contact_name" name="tender_contact_name" value="<?php echo esc_attr($contact_name); ?>" class="regular-text" />
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">
-                    <label for="tender_contact_email"><?php _e('Contact Email', 'tender-notices'); ?></label>
-                </th>
-                <td>
-                    <input type="email" id="tender_contact_email" name="tender_contact_email" value="<?php echo esc_attr($contact_email); ?>" class="regular-text" />
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">
-                    <label for="tender_contact_phone"><?php _e('Contact Phone', 'tender-notices'); ?></label>
-                </th>
-                <td>
-                    <input type="tel" id="tender_contact_phone" name="tender_contact_phone" value="<?php echo esc_attr($contact_phone); ?>" class="regular-text" />
                 </td>
             </tr>
         </table>
@@ -300,6 +246,8 @@ class TenderNotices_Post_Type {
         }
         ?>
         <div id="tender-pdf-upload">
+            <p><strong style="color: #d63638;"><?php _e('* PDF Upload Required', 'tender-notices'); ?></strong></p>
+            <p class="description"><?php _e('A PDF document is mandatory for all tender notices.', 'tender-notices'); ?></p>
             <input type="hidden" id="tender_pdf_id" name="tender_pdf_id" value="<?php echo esc_attr($pdf_id); ?>" />
             <div id="tender-pdf-preview">
                 <?php if ($pdf_url): ?>
@@ -307,10 +255,10 @@ class TenderNotices_Post_Type {
                     <p><a href="<?php echo esc_url($pdf_url); ?>" target="_blank"><?php _e('View PDF', 'tender-notices'); ?></a></p>
                     <button type="button" id="remove-pdf" class="button"><?php _e('Remove PDF', 'tender-notices'); ?></button>
                 <?php else: ?>
-                    <p><?php _e('No PDF uploaded', 'tender-notices'); ?></p>
+                    <p style="color: #d63638;"><strong><?php _e('No PDF uploaded - Required!', 'tender-notices'); ?></strong></p>
                 <?php endif; ?>
             </div>
-            <button type="button" id="upload-pdf" class="button"><?php _e('Upload PDF', 'tender-notices'); ?></button>
+            <button type="button" id="upload-pdf" class="button button-primary"><?php _e('Upload PDF', 'tender-notices'); ?></button>
         </div>
         <?php
     }
@@ -332,13 +280,7 @@ class TenderNotices_Post_Type {
         }
         
         $fields = array(
-            'tender_issue_date',
             'tender_closing_date',
-            'tender_contact_name',
-            'tender_contact_email',
-            'tender_contact_phone',
-            'tender_value',
-            'tender_reference',
             'tender_number',
             'pre_bid_meeting_date',
             'pre_bid_meeting_mandatory',
@@ -347,6 +289,15 @@ class TenderNotices_Post_Type {
             'site_visit_mandatory',
             'tender_pdf_id'
         );
+        
+        // Validate PDF upload is mandatory
+        $pdf_id = isset($_POST['tender_pdf_id']) ? intval($_POST['tender_pdf_id']) : 0;
+        if (!$pdf_id) {
+            add_filter('redirect_post_location', function($location) {
+                return add_query_arg('tender_notices_message', 'pdf_required', $location);
+            });
+            return;
+        }
         
         foreach ($fields as $field) {
             if (isset($_POST[$field])) {
@@ -365,7 +316,6 @@ class TenderNotices_Post_Type {
         $new_columns['tender_category'] = __('Category', 'tender-notices');
         $new_columns['tender_status'] = __('Status', 'tender-notices');
         $new_columns['tender_number'] = __('Tender Number', 'tender-notices');
-        $new_columns['issue_date'] = __('Issue Date', 'tender-notices');
         $new_columns['closing_date'] = __('Closing Date', 'tender-notices');
         $new_columns['pre_bid_meeting'] = __('Pre-Bid Meeting', 'tender-notices');
         $new_columns['site_visit'] = __('Site Visit', 'tender-notices');
@@ -404,11 +354,6 @@ class TenderNotices_Post_Type {
                 } else {
                     echo '—';
                 }
-                break;
-                
-            case 'issue_date':
-                $issue_date = get_post_meta($post_id, '_tender_issue_date', true);
-                echo $issue_date ? date('M j, Y', strtotime($issue_date)) : '—';
                 break;
                 
             case 'tender_number':

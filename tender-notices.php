@@ -60,6 +60,9 @@ class TenderNotices {
         add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
         register_activation_hook(__FILE__, array($this, 'activate'));
         register_deactivation_hook(__FILE__, array($this, 'deactivate'));
+        
+        // Ensure post type is registered early
+        add_action('init', array($this, 'register_post_type_early'), 5);
     }
     
     /**
@@ -75,14 +78,21 @@ class TenderNotices {
     }
     
     /**
-     * Initialize plugin
+     * Register post type early
      */
-    public function init() {
+    public function register_post_type_early() {
         // Load text domain
         load_plugin_textdomain('tender-notices', false, dirname(plugin_basename(__FILE__)) . '/languages');
         
-        // Initialize components
+        // Initialize post type first
         new TenderNotices_Post_Type();
+    }
+    
+    /**
+     * Initialize plugin
+     */
+    public function init() {
+        // Initialize remaining components
         new TenderNotices_Admin();
         new TenderNotices_Frontend();
         new TenderNotices_Shortcode();
