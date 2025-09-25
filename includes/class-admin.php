@@ -16,6 +16,7 @@ class TenderNotices_Admin {
         add_action('admin_menu', array($this, 'add_admin_menu'));
         add_action('admin_init', array($this, 'register_settings'));
         add_action('admin_notices', array($this, 'admin_notices'));
+        add_action('wp_dashboard_setup', array($this, 'add_dashboard_widget'));
         add_action('wp_ajax_tender_notices_upload_pdf', array($this, 'handle_pdf_upload'));
         add_action('wp_ajax_tender_notices_remove_pdf', array($this, 'handle_pdf_removal'));
     }
@@ -32,7 +33,12 @@ class TenderNotices_Admin {
             'tender-notices-settings',
             array($this, 'settings_page')
         );
-        
+    }
+    
+    /**
+     * Add dashboard widget
+     */
+    public function add_dashboard_widget() {
         wp_add_dashboard_widget(
             'tender_notices_dashboard',
             __('Tender Notices Overview', 'tender-notices'),
