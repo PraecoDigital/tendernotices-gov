@@ -33,7 +33,7 @@ class TenderNotices_Admin {
             array($this, 'settings_page')
         );
         
-        add_dashboard_widget(
+        wp_add_dashboard_widget(
             'tender_notices_dashboard',
             __('Tender Notices Overview', 'tender-notices'),
             array($this, 'dashboard_widget')
