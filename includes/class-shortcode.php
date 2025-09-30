@@ -24,20 +24,16 @@ class TenderNotices_Shortcode {
         $atts = shortcode_atts(array(
             'columns' => 'single',
             'posts_per_page' => 10,
-            'category' => '',
-            'status' => '',
             'show_excerpt' => true,
             'excerpt_length' => 25,
             'orderby' => 'date',
             'order' => 'DESC',
             'show_pagination' => true,
-            'show_filters' => false,
         ), $atts, 'tender_notices');
         
         // Convert string boolean values
         $atts['show_excerpt'] = filter_var($atts['show_excerpt'], FILTER_VALIDATE_BOOLEAN);
         $atts['show_pagination'] = filter_var($atts['show_pagination'], FILTER_VALIDATE_BOOLEAN);
-        $atts['show_filters'] = filter_var($atts['show_filters'], FILTER_VALIDATE_BOOLEAN);
         
         // Get options from settings
         $options = get_option('tender_notices_options', array());
@@ -69,22 +65,7 @@ class TenderNotices_Shortcode {
             'order' => $atts['order'],
         );
         
-        // Add taxonomy filters
-        if (!empty($atts['category'])) {
-            $query_args['tax_query'][] = array(
-                'taxonomy' => 'tender_category',
-                'field' => 'slug',
-                'terms' => $atts['category'],
-            );
-        }
-        
-        if (!empty($atts['status'])) {
-            $query_args['tax_query'][] = array(
-                'taxonomy' => 'tender_status',
-                'field' => 'slug',
-                'terms' => $atts['status'],
-            );
-        }
+        // Taxonomy-based filtering via shortcode is removed
         
         // Handle pagination
         if ($atts['show_pagination']) {
@@ -100,10 +81,7 @@ class TenderNotices_Shortcode {
         
         ob_start();
         
-        // Add filters if enabled
-        if ($atts['show_filters']) {
-            $this->render_filters();
-        }
+        // Filters UI removed
         
         // Render tender notices
         $this->render_tender_notices($query, $atts);
@@ -413,52 +391,7 @@ class TenderNotices_Shortcode {
         <?php
     }
     
-    /**
-     * Render filters
-     */
-    private function render_filters() {
-        $categories = get_terms(array(
-            'taxonomy' => 'tender_category',
-            'hide_empty' => true,
-        ));
-        
-        $statuses = get_terms(array(
-            'taxonomy' => 'tender_status',
-            'hide_empty' => true,
-        ));
-        
-        ?>
-        <div class="tender-notices-filters">
-            <form method="get" class="tender-filters-form">
-                <?php if ($categories && !is_wp_error($categories)): ?>
-                    <select name="tender_category" class="tender-filter-select">
-                        <option value=""><?php _e('All Categories', 'tender-notices'); ?></option>
-                        <?php foreach ($categories as $category): ?>
-                            <option value="<?php echo esc_attr($category->slug); ?>" 
-                                    <?php selected(isset($_GET['tender_category']) ? $_GET['tender_category'] : '', $category->slug); ?>>
-                                <?php echo esc_html($category->name); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                <?php endif; ?>
-                
-                <?php if ($statuses && !is_wp_error($statuses)): ?>
-                    <select name="tender_status" class="tender-filter-select">
-                        <option value=""><?php _e('All Status', 'tender-notices'); ?></option>
-                        <?php foreach ($statuses as $status): ?>
-                            <option value="<?php echo esc_attr($status->slug); ?>" 
-                                    <?php selected(isset($_GET['tender_status']) ? $_GET['tender_status'] : '', $status->slug); ?>>
-                                <?php echo esc_html($status->name); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                <?php endif; ?>
-                
-                <button type="submit" class="btn-primary"><?php _e('Filter', 'tender-notices'); ?></button>
-            </form>
-        </div>
-        <?php
-    }
+    
     
     /**
      * Render pagination

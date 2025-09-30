@@ -64,20 +64,16 @@ Use the shortcode to display tender notices on any page or post:
 **Shortcode Parameters:**
 - `columns` - Number of columns (1 or 2)
 - `posts_per_page` - Number of notices to display
-- `category` - Filter by category slug
-- `status` - Filter by status slug
 - `show_excerpt` - Show/hide excerpt (true/false)
 - `excerpt_length` - Number of words in excerpt
 - `orderby` - Sort by field (date, title, etc.)
 - `order` - Sort order (ASC/DESC)
 - `show_pagination` - Show pagination (true/false)
-- `show_filters` - Show filter form (true/false)
 
 **Examples:**
 ```
 [tender_notices columns="2" posts_per_page="6"]
-[tender_notices category="construction" status="active"]
-[tender_notices show_filters="true" show_pagination="true"]
+[tender_notices show_pagination="true"]
 ```
 
 #### Widget

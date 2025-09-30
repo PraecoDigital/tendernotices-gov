@@ -44,8 +44,8 @@
 - Configure posts per page and excerpt settings
 
 ### 2. Create Categories and Status
-- Go to **Tender Notices > Categories** to create tender categories
-- Go to **Tender Notices > Status** to create tender statuses
+- Go to **Tender Notices > Categories** to create tender categories (optional)
+- Go to **Tender Notices > Status** to create tender statuses (optional)
 
 ### 3. Add Your First Tender Notice
 - Go to **Tender Notices > Add New**
@@ -67,7 +67,6 @@ Add tender notices to any page or post using shortcodes:
 ```
 [tender_notices]
 [tender_notices columns="2" posts_per_page="6"]
-[tender_notices category="construction" show_filters="true"]
 ```
 
 ### Widget Usage
