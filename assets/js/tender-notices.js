@@ -18,7 +18,6 @@
          */
         init: function() {
             this.bindEvents();
-            this.initFilters();
             this.initPagination();
         },
 
@@ -26,12 +25,6 @@
          * Bind event handlers
          */
         bindEvents: function() {
-            // Filter form submission
-            $(document).on('submit', '.tender-filters-form', this.handleFilterSubmit);
-            
-            // Filter select change
-            $(document).on('change', '.tender-filter-select', this.handleFilterChange);
-            
             // PDF download tracking
             $(document).on('click', 'a[href*="download_tender_pdf"]', this.trackDownload);
             
@@ -40,15 +33,7 @@
             $(document).on('mouseleave', '.tender-notice-card', this.handleCardLeave);
         },
 
-        /**
-         * Initialize filters
-         */
-        initFilters: function() {
-            // Auto-submit on filter change if configured
-            if ($('.tender-filter-select').data('auto-submit')) {
-                $('.tender-filter-select').on('change', this.handleFilterChange);
-            }
-        },
+        
 
         /**
          * Initialize pagination
@@ -60,46 +45,7 @@
             });
         },
 
-        /**
-         * Handle filter form submission
-         */
-        handleFilterSubmit: function(e) {
-            e.preventDefault();
-            
-            var form = $(this);
-            var url = new URL(window.location);
-            
-            // Clear existing parameters
-            url.searchParams.delete('tender_category');
-            url.searchParams.delete('tender_status');
-            url.searchParams.delete('paged');
-            
-            // Add new parameters
-            var category = form.find('select[name="tender_category"]').val();
-            var status = form.find('select[name="tender_status"]').val();
-            
-            if (category) {
-                url.searchParams.set('tender_category', category);
-            }
-            if (status) {
-                url.searchParams.set('tender_status', status);
-            }
-            
-            // Redirect to filtered URL
-            window.location.href = url.toString();
-        },
-
-        /**
-         * Handle filter change
-         */
-        handleFilterChange: function() {
-            var select = $(this);
-            var form = select.closest('form');
-            
-            if (form.length) {
-                form.submit();
-            }
-        },
+        
 
         /**
          * Track PDF downloads

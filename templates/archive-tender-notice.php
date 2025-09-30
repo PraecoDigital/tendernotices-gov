@@ -20,49 +20,6 @@ get_header(); ?>
     </header>
     
     <?php if (have_posts()): ?>
-        <div class="tender-notices-filters">
-            <form method="get" class="tender-filters-form">
-                <?php
-                $categories = get_terms(array(
-                    'taxonomy' => 'tender_category',
-                    'hide_empty' => true,
-                ));
-                
-                if ($categories && !is_wp_error($categories)):
-                ?>
-                    <select name="tender_category" class="tender-filter-select">
-                        <option value=""><?php _e('All Categories', 'tender-notices'); ?></option>
-                        <?php foreach ($categories as $category): ?>
-                            <option value="<?php echo esc_attr($category->slug); ?>" 
-                                    <?php selected(isset($_GET['tender_category']) ? $_GET['tender_category'] : '', $category->slug); ?>>
-                                <?php echo esc_html($category->name); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                <?php endif; ?>
-                
-                <?php
-                $statuses = get_terms(array(
-                    'taxonomy' => 'tender_status',
-                    'hide_empty' => true,
-                ));
-                
-                if ($statuses && !is_wp_error($statuses)):
-                ?>
-                    <select name="tender_status" class="tender-filter-select">
-                        <option value=""><?php _e('All Status', 'tender-notices'); ?></option>
-                        <?php foreach ($statuses as $status): ?>
-                            <option value="<?php echo esc_attr($status->slug); ?>" 
-                                    <?php selected(isset($_GET['tender_status']) ? $_GET['tender_status'] : '', $status->slug); ?>>
-                                <?php echo esc_html($status->name); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                <?php endif; ?>
-                
-                <button type="submit" class="btn-primary"><?php _e('Filter', 'tender-notices'); ?></button>
-            </form>
-        </div>
         
         <div class="tender-notices-container tender-notices-two-column">
             <?php while (have_posts()): the_post(); ?>

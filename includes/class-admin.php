@@ -175,14 +175,12 @@ class TenderNotices_Admin {
                 <ul>
                     <li><code>columns</code> - Number of columns (1 or 2)</li>
                     <li><code>posts_per_page</code> - Number of notices to display</li>
-                    <li><code>category</code> - Filter by category slug</li>
-                    <li><code>status</code> - Filter by status slug</li>
                     <li><code>show_excerpt</code> - Show/hide excerpt (true/false)</li>
                     <li><code>excerpt_length</code> - Number of words in excerpt</li>
                 </ul>
                 
                 <h3><?php _e('Example Usage', 'tender-notices'); ?></h3>
-                <code>[tender_notices columns="2" posts_per_page="6" category="construction"]</code>
+                <code>[tender_notices columns="2" posts_per_page="6"]</code>
             </div>
         </div>
         <?php

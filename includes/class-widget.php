@@ -30,10 +30,7 @@ class TenderNotices_Widget extends WP_Widget {
         $title = !empty($instance['title']) ? $instance['title'] : __('Recent Tender Notices', 'tender-notices');
         $number = !empty($instance['number']) ? absint($instance['number']) : 5;
         $show_excerpt = !empty($instance['show_excerpt']);
-        $show_date = !empty($instance['show_date']);
         $show_closing_date = !empty($instance['show_closing_date']);
-        $category = !empty($instance['category']) ? $instance['category'] : '';
-        $status = !empty($instance['status']) ? $instance['status'] : '';
         
         echo $args['before_widget'];
         
@@ -50,22 +47,7 @@ class TenderNotices_Widget extends WP_Widget {
             'order' => 'DESC',
         );
         
-        // Add taxonomy filters
-        if (!empty($category)) {
-            $query_args['tax_query'][] = array(
-                'taxonomy' => 'tender_category',
-                'field' => 'slug',
-                'terms' => $category,
-            );
-        }
-        
-        if (!empty($status)) {
-            $query_args['tax_query'][] = array(
-                'taxonomy' => 'tender_status',
-                'field' => 'slug',
-                'terms' => $status,
-            );
-        }
+        // Taxonomy filters removed
         
         $query = new WP_Query($query_args);
         
@@ -112,14 +94,7 @@ class TenderNotices_Widget extends WP_Widget {
                 </a>
             </h4>
             
-            <?php if ($instance['show_date'] && $data['issue_date']): ?>
-                <div class="tender-notices-widget-date">
-                    <strong><?php _e('Issue Date:', 'tender-notices'); ?></strong> 
-                    <?php echo esc_html(TenderNotices_Frontend::format_date($data['issue_date'])); ?>
-                </div>
-            <?php endif; ?>
-            
-            <?php if ($instance['show_closing_date'] && $data['closing_date']): ?>
+            <?php if (!empty($instance['show_closing_date']) && $data['closing_date']): ?>
                 <div class="tender-notices-widget-closing-date">
                     <strong><?php _e('Closing Date:', 'tender-notices'); ?></strong> 
                     <span class="<?php echo $is_expired ? 'tender-expired' : ''; ?>">
@@ -128,7 +103,7 @@ class TenderNotices_Widget extends WP_Widget {
                 </div>
             <?php endif; ?>
             
-            <?php if ($instance['show_excerpt'] && $data['excerpt']): ?>
+            <?php if (!empty($instance['show_excerpt']) && $data['excerpt']): ?>
                 <div class="tender-notices-widget-excerpt">
                     <?php echo wp_trim_words($data['excerpt'], 20, '...'); ?>
                 </div>
@@ -159,10 +134,7 @@ class TenderNotices_Widget extends WP_Widget {
         $title = !empty($instance['title']) ? $instance['title'] : '';
         $number = !empty($instance['number']) ? absint($instance['number']) : 5;
         $show_excerpt = !empty($instance['show_excerpt']);
-        $show_date = !empty($instance['show_date']);
         $show_closing_date = !empty($instance['show_closing_date']);
-        $category = !empty($instance['category']) ? $instance['category'] : '';
-        $status = !empty($instance['status']) ? $instance['status'] : '';
         
         ?>
         <p>
@@ -181,58 +153,9 @@ class TenderNotices_Widget extends WP_Widget {
         </p>
         
         <p>
-            <input class="checkbox" type="checkbox" <?php checked($show_date); ?> id="<?php echo $this->get_field_id('show_date'); ?>" name="<?php echo $this->get_field_name('show_date'); ?>">
-            <label for="<?php echo $this->get_field_id('show_date'); ?>"><?php _e('Show issue date', 'tender-notices'); ?></label>
-        </p>
-        
-        <p>
             <input class="checkbox" type="checkbox" <?php checked($show_closing_date); ?> id="<?php echo $this->get_field_id('show_closing_date'); ?>" name="<?php echo $this->get_field_name('show_closing_date'); ?>">
             <label for="<?php echo $this->get_field_id('show_closing_date'); ?>"><?php _e('Show closing date', 'tender-notices'); ?></label>
         </p>
-        
-        <?php
-        // Category filter
-        $categories = get_terms(array(
-            'taxonomy' => 'tender_category',
-            'hide_empty' => false,
-        ));
-        
-        if ($categories && !is_wp_error($categories)):
-        ?>
-        <p>
-            <label for="<?php echo $this->get_field_id('category'); ?>"><?php _e('Filter by category:', 'tender-notices'); ?></label>
-            <select class="widefat" id="<?php echo $this->get_field_id('category'); ?>" name="<?php echo $this->get_field_name('category'); ?>">
-                <option value=""><?php _e('All Categories', 'tender-notices'); ?></option>
-                <?php foreach ($categories as $cat): ?>
-                    <option value="<?php echo esc_attr($cat->slug); ?>" <?php selected($category, $cat->slug); ?>>
-                        <?php echo esc_html($cat->name); ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-        </p>
-        <?php endif; ?>
-        
-        <?php
-        // Status filter
-        $statuses = get_terms(array(
-            'taxonomy' => 'tender_status',
-            'hide_empty' => false,
-        ));
-        
-        if ($statuses && !is_wp_error($statuses)):
-        ?>
-        <p>
-            <label for="<?php echo $this->get_field_id('status'); ?>"><?php _e('Filter by status:', 'tender-notices'); ?></label>
-            <select class="widefat" id="<?php echo $this->get_field_id('status'); ?>" name="<?php echo $this->get_field_name('status'); ?>">
-                <option value=""><?php _e('All Status', 'tender-notices'); ?></option>
-                <?php foreach ($statuses as $stat): ?>
-                    <option value="<?php echo esc_attr($stat->slug); ?>" <?php selected($status, $stat->slug); ?>>
-                        <?php echo esc_html($stat->name); ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-        </p>
-        <?php endif; ?>
         <?php
     }
     
@@ -244,10 +167,7 @@ class TenderNotices_Widget extends WP_Widget {
         $instance['title'] = (!empty($new_instance['title'])) ? sanitize_text_field($new_instance['title']) : '';
         $instance['number'] = (!empty($new_instance['number'])) ? absint($new_instance['number']) : 5;
         $instance['show_excerpt'] = !empty($new_instance['show_excerpt']);
-        $instance['show_date'] = !empty($new_instance['show_date']);
         $instance['show_closing_date'] = !empty($new_instance['show_closing_date']);
-        $instance['category'] = (!empty($new_instance['category'])) ? sanitize_text_field($new_instance['category']) : '';
-        $instance['status'] = (!empty($new_instance['status'])) ? sanitize_text_field($new_instance['status']) : '';
         
         return $instance;
     }
