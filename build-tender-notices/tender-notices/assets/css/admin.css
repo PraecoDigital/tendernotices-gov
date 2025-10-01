@@ -1,0 +1,272 @@
+/* Tender Notices Admin Styles */
+
+.tender-notices-admin {
+  font-family: var(--font-family, Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+}
+
+/* Admin Dashboard Widget */
+.tender-notices-dashboard {
+  padding: 1rem;
+}
+
+.tender-notices-dashboard h4 {
+  color: var(--primary-navy, #003366);
+  margin-bottom: 0.5rem;
+}
+
+.tender-notices-dashboard ul {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+}
+
+.tender-notices-dashboard li {
+  padding: 0.25rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.tender-notices-dashboard li:last-child {
+  border-bottom: none;
+}
+
+.tender-notices-dashboard a {
+  color: var(--accent-teal, #4DB6AC);
+  text-decoration: none;
+}
+
+.tender-notices-dashboard a:hover {
+  color: var(--primary-navy, #003366);
+}
+
+/* Meta Box Styles */
+#tender_notice_details .form-table th {
+  width: 150px;
+  padding: 15px 10px 15px 0;
+  vertical-align: top;
+}
+
+#tender_notice_details .form-table td {
+  padding: 15px 10px;
+}
+
+#tender_notice_details .regular-text {
+  width: 100%;
+  max-width: 300px;
+}
+
+/* PDF Upload Interface */
+#tender-pdf-upload {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #f9f9f9;
+}
+
+#tender-pdf-preview {
+  margin-bottom: 1rem;
+}
+
+#tender-pdf-preview p {
+  margin: 0.5rem 0;
+}
+
+#tender-pdf-preview a {
+  color: var(--accent-teal, #4DB6AC);
+  text-decoration: none;
+}
+
+#tender-pdf-preview a:hover {
+  color: var(--primary-navy, #003366);
+}
+
+#upload-pdf,
+#remove-pdf {
+  margin-right: 0.5rem;
+}
+
+/* Admin List Table Enhancements */
+.wp-list-table .column-tender_category,
+.wp-list-table .column-tender_status,
+.wp-list-table .column-issue_date,
+.wp-list-table .column-closing_date,
+.wp-list-table .column-pdf {
+  width: 120px;
+}
+
+.wp-list-table .column-closing_date .tender-expired {
+  color: #d63638;
+  font-weight: 600;
+}
+
+/* Settings Page */
+.tender-notices-info {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+
+.tender-notices-info h2 {
+  color: var(--primary-navy, #003366);
+  margin-top: 0;
+}
+
+.tender-notices-info h3 {
+  color: var(--primary-navy, #003366);
+  margin-top: 1.5rem;
+}
+
+.tender-notices-info code {
+  background: #f0f0f0;
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+}
+
+.tender-notices-info ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.tender-notices-info li {
+  margin-bottom: 0.25rem;
+}
+
+/* Media Uploader Styles */
+.media-frame-title h1 {
+  color: var(--primary-navy, #003366);
+}
+
+.media-frame .button-primary {
+  background: var(--accent-teal, #4DB6AC);
+  border-color: var(--accent-teal, #4DB6AC);
+}
+
+.media-frame .button-primary:hover {
+  background: var(--primary-navy, #003366);
+  border-color: var(--primary-navy, #003366);
+}
+
+/* Admin Notices */
+.tender-notices-admin .notice {
+  border-left-color: var(--accent-teal, #4DB6AC);
+}
+
+.tender-notices-admin .notice.notice-success {
+  border-left-color: #00a32a;
+}
+
+.tender-notices-admin .notice.notice-error {
+  border-left-color: #d63638;
+}
+
+/* Form Field Enhancements */
+.tender-notices-admin input[type="date"],
+.tender-notices-admin input[type="email"],
+.tender-notices-admin input[type="tel"],
+.tender-notices-admin input[type="text"] {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 12px;
+  transition: border-color 0.2s ease;
+}
+
+.tender-notices-admin input[type="date"]:focus,
+.tender-notices-admin input[type="email"]:focus,
+.tender-notices-admin input[type="tel"]:focus,
+.tender-notices-admin input[type="text"]:focus {
+  border-color: var(--accent-teal, #4DB6AC);
+  box-shadow: 0 0 0 1px var(--accent-teal, #4DB6AC);
+  outline: none;
+}
+
+/* Button Styles */
+.tender-notices-admin .button-primary {
+  background: var(--accent-teal, #4DB6AC);
+  border-color: var(--accent-teal, #4DB6AC);
+  color: white;
+}
+
+.tender-notices-admin .button-primary:hover {
+  background: var(--primary-navy, #003366);
+  border-color: var(--primary-navy, #003366);
+}
+
+.tender-notices-admin .button-secondary {
+  color: var(--primary-navy, #003366);
+  border-color: #ddd;
+}
+
+.tender-notices-admin .button-secondary:hover {
+  background: var(--bg-gray, #F9FAFB);
+  border-color: var(--accent-teal, #4DB6AC);
+  color: var(--primary-navy, #003366);
+}
+
+/* Loading States */
+.tender-notices-admin .spinner {
+  visibility: visible;
+  float: none;
+  margin: 0 0.5rem;
+}
+
+.tender-notices-admin .loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Error States */
+.tender-notices-admin .error {
+  color: #d63638;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.tender-notices-admin .success {
+  color: #00a32a;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Responsive Admin */
+@media (max-width: 768px) {
+  .tender-notices-admin .form-table th,
+  .tender-notices-admin .form-table td {
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+  }
+  
+  .tender-notices-admin .form-table th {
+    font-weight: 600;
+    color: var(--primary-navy, #003366);
+  }
+  
+  .tender-notices-info {
+    padding: 1rem;
+  }
+  
+  .tender-notices-info h2,
+  .tender-notices-info h3 {
+    font-size: 1.1rem;
+  }
+}
+
+/* Print Styles for Admin */
+@media print {
+  .tender-notices-admin .button,
+  .tender-notices-admin .notice {
+    display: none !important;
+  }
+  
+  .tender-notices-admin .form-table {
+    border: 1px solid #000;
+  }
+  
+  .tender-notices-admin .form-table th,
+  .tender-notices-admin .form-table td {
+    border: 1px solid #000;
+    padding: 8px;
+  }
+}
